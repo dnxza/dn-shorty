@@ -6,7 +6,11 @@ Simple URL shortener by Golang.
 
 1\. Create Database
 
-2\. Set `Env` before run for PowerShell
+2\. Install required dependency package
+
+    go get go.mongodb.org/mongo-driver
+
+3\. Set `Env` before run for PowerShell
 
     $Env:host = "http://localhost:8080"
     
@@ -14,7 +18,7 @@ Simple URL shortener by Golang.
     
     $Env:dbName = "shorty" 
 
-3\. Run App
+4\. Run App
 
     go run .
 
@@ -32,7 +36,7 @@ return a shortened URL
 
     http://localhost:8080/ge
 
-## Generating short URLs
+## Requirement
 
 * Go 1.15+
 * MongoDB
