@@ -29,19 +29,17 @@ type Counter struct {
 	Value int    `bson:"sequence_value"`
 }
 
-const (
-	chars string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-	base  int    = len(chars)
-)
-
 var (
 	urls        *mongo.Collection
 	cc          *mongo.Collection
 	ctx, cancel = context.WithCancel(context.Background())
 
-	host   = os.Getenv("host")
-	db     = os.Getenv("db")
-	dbName = os.Getenv("dbName")
+	chars  string = os.Getenv("chars")
+	base   int    = len(chars)
+	host   string = os.Getenv("host")
+	port   string = os.Getenv("port")
+	db     string = os.Getenv("db")
+	dbName string = os.Getenv("dbName")
 )
 
 func init() {
@@ -210,6 +208,13 @@ func contains(s []string, str string) bool {
 	return false
 }
 
+func TrimSuffix(s, suffix string) string {
+	if strings.HasSuffix(s, suffix) {
+		s = s[:len(s)-len(suffix)]
+	}
+	return s
+}
+
 func handler(w http.ResponseWriter, r *http.Request) {
 
 	query := r.URL.Query()
@@ -259,5 +264,5 @@ func faviconHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/favicon.ico", faviconHandler)
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":"+port, nil)
 }
