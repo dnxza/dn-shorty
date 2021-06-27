@@ -1,8 +1,13 @@
-FROM golang:1.15 AS builder
+FROM golang:1.15-alpine AS builder
 WORKDIR /code
+
+ENV CGO_ENABLED=0 \
+  GOOS=linux \
+  GOARCH=amd64
+
 COPY . .
 RUN go get -d -v ./...
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+RUN go build -a -installsuffix cgo -o app .
 
 
 FROM alpine:latest 
